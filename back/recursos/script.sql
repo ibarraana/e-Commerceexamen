@@ -1,0 +1,4 @@
+DROP DATABASE IF EXISTS negocio;
+CREATE DATABASE IF NOT EXISTS negocio;
+
+USE negocio;
