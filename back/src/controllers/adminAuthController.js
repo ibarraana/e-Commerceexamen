@@ -5,14 +5,14 @@ import Admin from '../models/Admin.js';
 // POST /api/auth/admin/login
 export const loginAdmin = async (req, res) => {
     try {
-        const { email, password } = req.body;
+        const { email, passwordAdmin } = req.body;
 
         const admin = await Admin.findOne({ where: { email } });
         if (!admin) {
             return res.status(404).json({ message: 'Administrador no encontrado.' });
         }
 
-        const validPassword = await bcrypt.compare(password, admin.password);
+        const validPassword = await bcrypt.compare(passwordAdmin, admin.passwordAdmin);
         if (!validPassword) {
             return res.status(400).json({ message: 'Contraseña incorrecta.' });
         }
@@ -37,7 +37,7 @@ export const loginAdmin = async (req, res) => {
 export const getAdminMetrics = async (req, res) => {
     try {
         const admin = await Admin.findByPk(req.user.id, {
-            attributes: { exclude: ['password'] }
+            attributes: { exclude: ['passwordAdmin'] }
         });
 
         return res.json({

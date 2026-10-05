@@ -5,14 +5,14 @@ import Client from '../models/Client.js';
 // POST /api/auth/client/login
 export const loginClient = async (req, res) => {
     try {
-        const { email, password } = req.body;
+        const { email, passwordClient } = req.body;
 
         const client = await Client.findOne({ where: { email } });
         if (!client) {
             return res.status(404).json({ message: 'Cliente no encontrado.' });
         }
 
-        const validPassword = await bcrypt.compare(password, client.password);
+        const validPassword = await bcrypt.compare(passwordClient, client.passwordClient);
         if (!validPassword) {
             return res.status(400).json({ message: 'Contraseña incorrecta.' });
         }
@@ -37,7 +37,7 @@ export const loginClient = async (req, res) => {
 export const getClientProfile = async (req, res) => {
     try {
         const client = await Client.findByPk(req.user.id, {
-            attributes: { exclude: ['password'] } // No retornar contraseña
+            attributes: { exclude: ['passwordClient'] } // No retornar contraseña
         });
 
         if (!client) {

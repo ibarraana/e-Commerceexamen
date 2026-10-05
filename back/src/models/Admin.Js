@@ -21,7 +21,7 @@ const Admin = sequelize.define(
       unique: true
     },
 
-    password: {
+    passwordAdmin: {
       type: DataTypes.STRING,
       allowNull: false
     }

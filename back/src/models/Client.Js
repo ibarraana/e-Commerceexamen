@@ -21,7 +21,7 @@ const Client = sequelize.define(
       unique: true
     },
 
-    password: {
+    passwordClient: {
       type: DataTypes.STRING,
       allowNull: false
     },

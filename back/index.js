@@ -22,7 +22,7 @@ const startServer = async () => {
       await Admin.create({
         nombre: 'Admin Principal',
         email: 'admin@tienda.com',
-        password: passHashAdmin
+        passwordAdmin: passHashAdmin
       });
       console.log('--- Admin de prueba creado: admin@tienda.com / admin123 ---');
     }
@@ -34,7 +34,7 @@ const startServer = async () => {
       await Client.create({
         nombre: 'Cliente Prueba',
         email: 'cliente@tienda.com',
-        password: passHashClient,
+        passwordClient: passHashClient,
         direccion: 'Calle Falsa 123',
         telefono: '123456789'
       });
