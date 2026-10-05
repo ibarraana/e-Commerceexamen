@@ -1,13 +1,13 @@
 import api from "./index-api"
 
 // /auth/client/login
-export async function loginClient(email, passwordClient) {
+export async function loginCliente(email, passwordClient) {
     try {
         const response = await api.post('/auth/client/login', { email, passwordClient });
         return response.data;
     }
     catch (error) {
-        console.error('Error en loginClient:', error.response ? error.response.data : error.message);
+        console.error('Error en loginCliente:', error.response ? error.response.data : error.message);
         throw error.response.data;
     }
 }
