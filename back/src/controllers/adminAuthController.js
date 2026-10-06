@@ -19,7 +19,7 @@ export const loginAdmin = async (req, res) => {
 
         // Generar Token JWT con payload { id, type: 'admin' }
         const token = jwt.sign(
-            { id: admin.id, type: 'admin' },
+            { id: admin.id, type: 'admin', rol: admin.rol },
             process.env.JWT_SECRET || 'secretkey_tienda',
             { expiresIn: '2h' }
         );
