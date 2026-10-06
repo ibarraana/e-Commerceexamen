@@ -10,7 +10,7 @@ function MainViewComponent() {
             <table>
                 <tr>
                     <td>Inicio de sesion para Clientes:</td>
-                    <td><Link to="/login-cliente"><button>Iniciar sesion - Espacio Clientes</button></Link></td>
+                    <td><Link to="/login-clientes"><button>Iniciar sesion - Espacio Clientes</button></Link></td>
                 </tr>
                 <tr>
                     <td>Inicio de sesion para Administradores:</td>
