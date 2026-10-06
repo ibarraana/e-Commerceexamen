@@ -16,8 +16,8 @@ function AdminDashboard() {
 
             {usuarios ? ( 
                 <div>
-                    <p>Usuarios: {usuarios.nombre}</p>
-                    <p>Correo: { usuarios.email}</p>
+                    <p>Usuarios: {usuarios.admin.nombre}</p>
+                    <p>Correo: { usuarios.admin.email}</p>
                 </div>
             ) : (
                 <p>Cargando información del administrador...</p>
