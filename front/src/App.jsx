@@ -1,11 +1,20 @@
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import AuthProvider from './contextAPI/AuthProvider'
+
+import MainViewComponent from './components/main-view-component'
+
 import './App.css'
 
 function App() {
 
   return (
-    <>
-      <h1>Front en progreso</h1>
-    </>
+    <Router>
+      <AuthProvider>
+        <Routes>
+          <Route path="/" element={<MainViewComponent />} />
+        </Routes>        
+      </AuthProvider>
+    </Router>
   )
 }
 

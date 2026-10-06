@@ -55,7 +55,7 @@ function AuthProvider({ children }) {
             const datosMetricasAdmin = await getAdminMetricas(data.token)
             setUsuarios(datosMetricasAdmin)
 
-            navigate("/admin/panel")
+            navigate("/admin/dashboard")
         }
         catch (error) {
             console.error("Error al iniciar sesión como admin:", error)
@@ -78,7 +78,7 @@ function AuthProvider({ children }) {
             const datosPerfilCliente = await getPerfilCliente(data.token)
             setUsuarios(datosPerfilCliente)
 
-            navigate("/client/panel")
+            navigate("/client/dashboard")
         }
         catch (error) {
             console.error("Error al iniciar sesión como cliente:", error)
