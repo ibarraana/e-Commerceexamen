@@ -78,7 +78,7 @@ function AuthProvider({ children }) {
             const datosPerfilCliente = await getPerfilCliente(data.token)
             setUsuarios(datosPerfilCliente)
 
-            navigate("/client/dashboard")
+            navigate("/clientes/dashboard")
         }
         catch (error) {
             console.error("Error al iniciar sesión como cliente:", error)

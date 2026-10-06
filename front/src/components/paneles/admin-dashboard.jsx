@@ -23,9 +23,6 @@ function AdminDashboard() {
                 <p>Cargando información del administrador...</p>
             )}
 
-
-
-
         </div>
     )
 }

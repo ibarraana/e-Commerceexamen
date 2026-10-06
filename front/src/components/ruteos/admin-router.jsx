@@ -12,11 +12,11 @@ function AdminRouter({ children }) {
     }
 
     if(!token) {
-        return <Navigate to="/admin/login" replace />
+        return <Navigate to="/admin/login-admin" replace />
     }
 
     if(tipoUsuario !== "admin") {
-        return <Navigate to="/cliente/dashboard" replace />
+        return <Navigate to="/admin/dashboard" replace />
     }
 
     return children
