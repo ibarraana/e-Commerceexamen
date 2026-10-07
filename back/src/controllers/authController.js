@@ -10,24 +10,20 @@ export async function verificarYRenovarToken(req, res) {
             return res.status(400).json({ message: "Refresh token requerido." });
         }
 
-        // 1. Verificar la firma del Refresh Token recibido
         const decodificado = jwt.verify(refreshTokenRecibido, process.env.JWT_SECRET || 'secretkey_tienda');
 
         let usuarioEncontrado = null;
 
-        // 2. Buscar en la tabla correspondiente según el tipo contenido en el token
         if (decodificado.type === 'admin') {
             usuarioEncontrado = await Admin.findOne({ where: { id: decodificado.id, refreshToken: refreshTokenRecibido } });
         } else if (decodificado.type === 'client') {
             usuarioEncontrado = await Client.findOne({ where: { id: decodificado.id, refreshToken: refreshTokenRecibido } });
         }
 
-        // Si no se encuentra el usuario o el token no coincide con el de la base de datos
         if (!usuarioEncontrado) {
             return res.status(401).json({ message: "Sesión inválida o expirada." });
         }
 
-        // 3. Emitir un nuevo Access Token limpio de 15 minutos
         const nuevoAccessToken = jwt.sign(
             { 
                 id: usuarioEncontrado.id, 
@@ -56,7 +52,6 @@ export async function invalidarSesionBackend(req, res) {
             return res.status(400).json({ message: "Refresh token requerido para cerrar sesión." });
         }
 
-        // Buscamos y borramos el token en ambas tablas de forma clásica
         const admin = await Admin.findOne({ where: { refreshToken: refreshTokenRecibido } });
         if (admin) {
             await admin.update({ refreshToken: null });

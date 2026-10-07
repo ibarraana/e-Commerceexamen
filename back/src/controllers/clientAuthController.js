@@ -50,7 +50,7 @@ export const loginClient = async (req, res) => {
 export const getClientProfile = async (req, res) => {
   try {
     const client = await Client.findByPk(req.user.id, {
-      attributes: { exclude: ["passwordClient"] }, // No retornar contraseña
+      attributes: { exclude: ["passwordClient"] },
     });
 
     if (!client) {

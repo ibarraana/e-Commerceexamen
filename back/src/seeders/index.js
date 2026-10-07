@@ -7,13 +7,10 @@ async function inicarSeeders() {
   try {
     console.log("Iniciando seeders...")
 
-    // 1. Probar conexión
     await testConnection()
 
-    // 2. Sincronizar tablas con la base de datos
     await sequelize.sync({ alter: true })
 
-    // 3. Crear Admin inicial por defecto si no existe
     const adminExist = await Admin.findOne({
       where: { email: "admin@tienda.com" },
     });
@@ -30,7 +27,6 @@ async function inicarSeeders() {
       );
     }
 
-    // 4. Crear Cliente inicial por defecto si no existe
     const clientExist = await Client.findOne({
       where: { email: "cliente@tienda.com" },
     });
@@ -48,7 +44,6 @@ async function inicarSeeders() {
       );
     }
 
-    // Para crear un gestor y un auditor
     const gestorExist = await Admin.findOne({
       where: { email: "gestor@tienda.com" },
     });
