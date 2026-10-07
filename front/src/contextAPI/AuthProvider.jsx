@@ -15,7 +15,6 @@ function AuthProvider({ children }) {
 
     const navigate = useNavigate()
 
-    // Ciclo de vida F5: Valida la persistencia de sesión al recargar la app
     useEffect(function () {
         async function verificarInicioSession() {
            const tokenExistente = localStorage.getItem("token");
@@ -40,24 +39,21 @@ function AuthProvider({ children }) {
                     }
                 }
             }
-            // SE APAGA EL SEMÁFORO: Garantiza que React termine de validar antes de renderizar las vistas
+
             setEstaCargando(false);
         }
         verificarInicioSession();
     }, [token, tipoUsuario]);
 
-    // Función clásica: Login para Administradores
     async function ejecutarLoginAdmin(email, passwordAdmin) {
         setEstaCargando(true);
         try {
             const data = await loginAdmin(email, passwordAdmin);
 
-            // Almacenamos físicamente las dos llaves de acceso en el navegador
             localStorage.setItem("token", data.token);
             localStorage.setItem("refreshToken", data.refreshToken); 
             localStorage.setItem("tipoUsuario", "admin");
 
-            // Sincronizamos el State Manager global
             setToken(data.token);
             setTipoUsuario("admin");
 
@@ -73,18 +69,15 @@ function AuthProvider({ children }) {
         }
     }
     
-    // Función clásica: Login para Clientes
     async function ejecutarLoginCliente(email, passwordCliente) {
         setEstaCargando(true);
         try {
             const data = await loginCliente(email, passwordCliente);
 
-            // Almacenamos físicamente las dos llaves de acceso en el navegador
             localStorage.setItem("token", data.token);
             localStorage.setItem("refreshToken", data.refreshToken); 
             localStorage.setItem("tipoUsuario", "cliente");
 
-            // Sincronizamos el State Manager global
             setToken(data.token);
             setTipoUsuario("cliente");
 
@@ -100,7 +93,6 @@ function AuthProvider({ children }) {
         }
     }
 
-    // Función clásica: Purga total y segura de la sesión en el navegador
     function CerrarSesion() {
         navigate("/", { replace: true });
         localStorage.removeItem("token");
