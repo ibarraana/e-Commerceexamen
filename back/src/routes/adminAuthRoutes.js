@@ -3,6 +3,7 @@ import { loginAdmin, getAdminMetrics } from '../controllers/adminAuthController.
 import { verifyToken } from '../middlewares/verifytoken.js'
 import { isAdmin } from '../middlewares/isAdmin.js'
 import { checkRolAdmin } from "../middlewares/checkRolAdmin.js"
+import { verificarYRenovarToken, invalidarSesionBackend } from '../controllers/authController.js';
  
 const router = Router()
 
@@ -12,6 +13,8 @@ router.post('/auth/admin/login', loginAdmin)
 // Rutas privadas para Admin
 router.get('/admin/metricas', verifyToken, isAdmin, getAdminMetrics)
 
+router.post('/auth/refresh', verificarYRenovarToken)
+router.post('/auth/logout', invalidarSesionBackend)
 
 // ● GET /api/admin/usuarios → Exclusivo superadmin
 router.get('/admin/usuarios', verifyToken, isAdmin, checkRolAdmin(['superadmin']), (req, res) => {

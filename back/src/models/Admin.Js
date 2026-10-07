@@ -1,7 +1,9 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../config/database.js";
 
-const Admin = sequelize.define("Admin", {
+const Admin = sequelize.define(
+  "Admin",
+  {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
@@ -25,11 +27,15 @@ const Admin = sequelize.define("Admin", {
       allowNull: false,
       defaultValue: "superadmin",
     },
+    refreshToken: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
 
     /*
-     * superadmin: Acceso total. 
-     * gestor_productos: Solo catálogo y stock. 
-     * auditor: Solo lectura de reportes y métricas. 
+     * superadmin: Acceso total.
+     * gestor_productos: Solo catálogo y stock.
+     * auditor: Solo lectura de reportes y métricas.
      */
   },
   {

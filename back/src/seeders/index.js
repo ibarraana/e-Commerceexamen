@@ -1,6 +1,6 @@
 import 'dotenv/config'
 import { sequelize, testConnection } from "../config/database.js"
-import { Admin, Client } from "../models/index.js" 
+import { Admin, Client, Producto } from "../models/index.js" 
 import bcrypt from "bcryptjs"
 
 async function inicarSeeders() {
@@ -26,7 +26,7 @@ async function inicarSeeders() {
         rol: "superadmin",
       });
       console.log(
-        "--- Admin de prueba creado: admin@tienda.com / admin123 ---",
+        "Admin de prueba creado: admin@tienda.com / admin123"
       );
     }
 
@@ -44,7 +44,7 @@ async function inicarSeeders() {
         telefonso: "123456789",
       });
       console.log(
-        "--- Cliente de prueba creado: cliente@tienda.com / cliente123 ---",
+        "Cliente de prueba creado: cliente@tienda.com / cliente123"
       );
     }
 
@@ -61,7 +61,7 @@ async function inicarSeeders() {
         rol: "gestor_productos",
       });
       console.log(
-        "--- Gestor de productos creado: gestor@tienda.com / gestor123 ---",
+        "Gestor de productos creado: gestor@tienda.com / gestor123",
       );
     }
 
@@ -77,8 +77,20 @@ async function inicarSeeders() {
         rol: "auditor",
       });
       console.log(
-        "--- Auditor del sistema creado: auditor@tienda.com / auditor123 ---",
+        "Auditor del sistema creado: auditor@tienda.com / auditor123"
       );
+    }
+
+    const productCount = await Producto.count();
+    if (productCount === 0) {
+      await Producto.bulkCreate([
+        { nombre: "Teclado Mecánico RGB", precio: 85.00, stock: 15, categoria: "Periféricos" },
+        { nombre: "Mouse Gamer Inalámbrico", precio: 45.50, stock: 22, categoria: "Periféricos" },
+        { nombre: "Monitor 24 Pulgadas IPS", precio: 180.00, stock: 8, categoria: "Monitores" },
+        { nombre: "Auriculares HyperX Cloud", precio: 75.00, stock: 12, categoria: "Audio" },
+        { nombre: "Placa de Video RTX 4060", precio: 350.00, stock: 5, categoria: "Componentes" }
+      ]);
+      console.log("Productos ficticios de prueba cargados correctamente");
     }
 
     console.log("Seeders finalizados correctamente");

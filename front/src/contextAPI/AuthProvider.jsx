@@ -15,85 +15,101 @@ function AuthProvider({ children }) {
 
     const navigate = useNavigate()
 
-    useEffect(() => {
+    // Ciclo de vida F5: Valida la persistencia de sesión al recargar la app
+    useEffect(function () {
         async function verificarInicioSession() {
-           if (token && tipoUsuario) {
-                if (tipoUsuario === "admin") {
+           const tokenExistente = localStorage.getItem("token");
+           const tipoExistente = localStorage.getItem("tipoUsuario");
+
+           if (tokenExistente && tipoExistente) {
+                if (tipoExistente === "admin") {
                     try {
-                        const metricas = await getAdminMetricas(token)
-                        setUsuarios(metricas)
+                        const metricas = await getAdminMetricas(tokenExistente);
+                        setUsuarios(metricas);
                     } catch (error) {
-                        console.error("Error al obtener métricas del admin:", error)
+                        console.error("Error al obtener métricas en persistencia:", error);
+                        CerrarSesion(); // Si el token falló, limpiamos de forma segura
                     }
-                } else if (tipoUsuario === "cliente") {
+                } else if (tipoExistente === "cliente") {
                     try {
-                        const perfil = await getPerfilCliente(token)
-                        setUsuarios(perfil)
+                        const perfil = await getPerfilCliente(tokenExistente);
+                        setUsuarios(perfil);
                     } catch (error) {
-                        console.error("Error al obtener perfil del cliente:", error)
+                        console.error("Error al obtener perfil en persistencia:", error);
+                        CerrarSesion();
                     }
                 }
             }
-            setEstaCargando(false)
+            // SE APAGA EL SEMÁFORO: Garantiza que React termine de validar antes de renderizar las vistas
+            setEstaCargando(false);
         }
-        verificarInicioSession()
-        
-    }, [token, tipoUsuario])
+        verificarInicioSession();
+    }, [token, tipoUsuario]);
 
+    // Función clásica: Login para Administradores
     async function ejecutarLoginAdmin(email, passwordAdmin) {
-        setEstaCargando(true)
-
+        setEstaCargando(true);
         try {
-            const data = await loginAdmin(email, passwordAdmin)
+            const data = await loginAdmin(email, passwordAdmin);
 
-            localStorage.setItem("token", data.token)
-            localStorage.setItem("tipoUsuario", "admin")
+            // Almacenamos físicamente las dos llaves de acceso en el navegador
+            localStorage.setItem("token", data.token);
+            localStorage.setItem("refreshToken", data.refreshToken); 
+            localStorage.setItem("tipoUsuario", "admin");
 
-            setToken(data.token)
-            setTipoUsuario("admin")
+            // Sincronizamos el State Manager global
+            setToken(data.token);
+            setTipoUsuario("admin");
 
-            const datosMetricasAdmin = await getAdminMetricas(data.token)
-            setUsuarios(datosMetricasAdmin)
+            const datosMetricasAdmin = await getAdminMetricas(data.token);
+            setUsuarios(datosMetricasAdmin);
 
-            navigate("/admin/dashboard")
+            navigate("/admin/dashboard");
         }
         catch (error) {
-            console.error("Error al iniciar sesión como admin:", error)
-            throw error
+            setEstaCargando(false);
+            console.error("Error al iniciar sesión como admin:", error);
+            throw error;
         }
     }
     
+    // Función clásica: Login para Clientes
     async function ejecutarLoginCliente(email, passwordCliente) {
-        setEstaCargando(true)
-
+        setEstaCargando(true);
         try {
-            const data = await loginCliente(email, passwordCliente)
+            const data = await loginCliente(email, passwordCliente);
 
-            localStorage.setItem("token", data.token)
-            localStorage.setItem("tipoUsuario", "cliente")
+            // Almacenamos físicamente las dos llaves de acceso en el navegador
+            localStorage.setItem("token", data.token);
+            localStorage.setItem("refreshToken", data.refreshToken); 
+            localStorage.setItem("tipoUsuario", "cliente");
 
-            setToken(data.token)
-            setTipoUsuario("cliente")
+            // Sincronizamos el State Manager global
+            setToken(data.token);
+            setTipoUsuario("cliente");
 
-            const datosPerfilCliente = await getPerfilCliente(data.token)
-            setUsuarios(datosPerfilCliente)
+            const datosPerfilCliente = await getPerfilCliente(data.token);
+            setUsuarios(datosPerfilCliente);
 
-            navigate("/clientes/dashboard")
+            navigate("/clientes/dashboard");
         }
         catch (error) {
-            console.error("Error al iniciar sesión como cliente:", error)
-            throw error
+            setEstaCargando(false);
+            console.error("Error al iniciar sesión como cliente:", error);
+            throw error;
         }
     }
 
+    // Función clásica: Purga total y segura de la sesión en el navegador
     function CerrarSesion() {
-        localStorage.removeItem("token")
-        localStorage.removeItem("tipoUsuario")
-        setToken(null)
-        setTipoUsuario(null)
-        setUsuarios(null)
-        setEstaCargando(false)
-        navigate("/")
+        navigate("/", { replace: true });
+        localStorage.removeItem("token");
+        localStorage.removeItem("refreshToken"); 
+        localStorage.removeItem("tipoUsuario");
+        setToken(null);
+        setTipoUsuario(null);
+        setUsuarios(null);
+        setEstaCargando(false);
     }
 
     return (
@@ -103,9 +119,7 @@ function AuthProvider({ children }) {
     )
 }
 
-export default AuthProvider
+export default AuthProvider;
 
-export const useAuth = () => useContext(AuthContext)
-
-
+export const useAuth = () => useContext(AuthContext);
 

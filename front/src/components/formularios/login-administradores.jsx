@@ -6,8 +6,7 @@ function LoginAdministradores() {
     const [email, setEmail] = useState("admin@tienda.com")
     const [passwordAdmin, setPasswordAdmin] = useState("admin123")
 
-    const { ejecutarLoginAdmin } = useAuth()
-
+    const { ejecutarLoginAdmin, tipoUsuario, CerrarSesion } = useAuth()
 
     async function logueoAdminDato(event) {
         event.preventDefault();
@@ -15,8 +14,20 @@ function LoginAdministradores() {
         try {
             await ejecutarLoginAdmin(email, passwordAdmin);
         } catch (error) {
-            window.alert("Error al iniciar sesion:", error);
+            window.alert("Error al iniciar sesión:", error);
         }
+    }
+
+    if (tipoUsuario === "cliente") {
+        return (
+            <div>
+                <h2>Conflicto de Sesiones Detectado</h2>
+                <p>Ya posee una sesión de Cliente activa en este navegador.</p>
+                <p>Para ingresar al panel de Administración, debe cerrar su sesión actual.</p>
+                <br />
+                <button onClick={CerrarSesion}>Cerrar sesión de Cliente y continuar</button>
+            </div>
+        )
     }
 
     return (
