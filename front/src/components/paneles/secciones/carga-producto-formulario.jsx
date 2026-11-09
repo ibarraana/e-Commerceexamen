@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { crearProducto } from "../../../services/producto-service";
+import { crearProducto, editarProducto } from "../../../services/producto-service";
 
 function CargaProductoFormulario({ onProductoCreado, onCancelar }) {
     const [nombre, setNombre] = useState("");
@@ -42,6 +42,7 @@ function CargaProductoFormulario({ onProductoCreado, onCancelar }) {
                 <label>Stock:</label>
                 <input type="number" required value={stock} onChange={function(e) { setStock(e.target.value); }} className="bg-gray-100 appearance-auto border-3 text-black" />
                 <br />
+                
                 <label>Categoría:</label>
                 <select required value={categoria}  onChange={function(e) { setCategoria(e.target.value); }} className="bg-gray-100 appearance-auto border-3 text-black">
                     <option value="">Seleccione una...</option>

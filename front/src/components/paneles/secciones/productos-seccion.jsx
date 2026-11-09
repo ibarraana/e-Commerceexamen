@@ -132,7 +132,7 @@ function ProductosSeccion() {
                 }} 
                 onCancelar={function() {
                     setMostrarFormulario(false);  
-            }}/>
+                }}/>
             )}
 
             {listaProductos.length > 0 ? (
@@ -156,11 +156,16 @@ function ProductosSeccion() {
                                     <td>{producto.categoria}</td>
                                     <td>${producto.precio}</td>
                                     <td>{producto.stock} u.</td>
+                                    <td>
+                                        <button className="bg-orange-500 cursor-pointer border-3 text-white" onClick={function() { setMostrarFormulario(true); }}>
+                                            Editar producto
+                                        </button>
+                                    </td>
                                     <td>                                       
                                         <button className="bg-red-500 cursor-pointer border-3 text-white" onClick={function() { manejarEliminar(producto.id); }}>
                                             Eliminar producto
                                         </button>
-                                    </td>
+                                    </td>                                    
                                 </tr>
                             );
                         })}

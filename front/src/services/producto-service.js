@@ -43,4 +43,16 @@ export async function crearProducto(nuevoProducto) {
 }
 
 
+export async function editarProducto(nuevoProducto) {
+    try {
+        const response = await api.put(`/products/${nuevoProducto.id}`, nuevoProducto);
+        return response.data;
+    } catch (error) {
+        console.error("Error en editarProducto:", error);
+        throw error;
+    }
+}
+
+
+
 
