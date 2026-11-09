@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { getProductosCatalogo, eliminarProducto, crearProducto  } from "../../../services/producto-service"
+import { getProductosCatalogo, eliminarProducto, crearProducto, editarProducto } from "../../../services/producto-service"
 import CargaProductoFormulario from "./carga-producto-formulario"; 
 
 
@@ -13,7 +13,7 @@ function ProductosSeccion() {
     const [categoriaSeleccionada, setCategoriaSeleccionada] = useState("");
     const [ordenPrecio, setOrdenPrecio] = useState("");
 
-    const [mostrarFormulario, setMostrarFormulario] = useState(false);
+    const [productoSeleccionado, setProductoSeleccionado] = useState(null);
 
 
     async function cargarDatos() {
@@ -120,19 +120,22 @@ function ProductosSeccion() {
 
                 
                 <br /><br /><br />
-                <button className="bg-green-500 cursor-pointer border-3" onClick={function() { setMostrarFormulario(true); }}>Cargar producto</button>
+                <button className="bg-green-500 cursor-pointer border-3" onClick={function() { { setProductoSeleccionado({}); } }}>Cargar producto</button>
             </section>
 
             <br /><hr /><br />
 
-            {mostrarFormulario && (
-                <CargaProductoFormulario onProductoCreado={async function() {
-                    await cargarDatos();         
-                    setMostrarFormulario(false);  
-                }} 
-                onCancelar={function() {
-                    setMostrarFormulario(false);  
-                }}/>
+            {productoSeleccionado && (
+                <CargaProductoFormulario 
+                    producto={productoSeleccionado}
+                    onProductoCreado={async function() {
+                        await cargarDatos();         
+                        setProductoSeleccionado(null);  
+                    }} 
+                    onCancelar={function() {
+                        setProductoSeleccionado(null);  
+                    }}
+                />
             )}
 
             {listaProductos.length > 0 ? (
@@ -157,7 +160,7 @@ function ProductosSeccion() {
                                     <td>${producto.precio}</td>
                                     <td>{producto.stock} u.</td>
                                     <td>
-                                        <button className="bg-orange-500 cursor-pointer border-3 text-white" onClick={function() { setMostrarFormulario(true); }}>
+                                        <button className="bg-orange-500 cursor-pointer border-3 text-white" onClick={function() { setProductoSeleccionado(producto); }}>
                                             Editar producto
                                         </button>
                                     </td>

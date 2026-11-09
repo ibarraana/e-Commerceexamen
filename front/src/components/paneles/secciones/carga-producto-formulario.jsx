@@ -1,16 +1,19 @@
 import { useState } from "react";
 import { crearProducto, editarProducto } from "../../../services/producto-service";
 
-function CargaProductoFormulario({ onProductoCreado, onCancelar }) {
-    const [nombre, setNombre] = useState("");
-    const [precio, setPrecio] = useState("");
-    const [stock, setStock] = useState("");
-    const [categoria, setCategoria] = useState("");
+function CargaProductoFormulario({ producto, onProductoCreado, onCancelar }) {
+
+    const [nombre, setNombre] = useState(producto?.nombre || "");
+    const [precio, setPrecio] = useState(producto?.precio || "");
+    const [stock, setStock] = useState(producto?.stock || "");
+    const [categoria, setCategoria] = useState(producto?.categoria || "");
+
+    const esEdicion = producto && producto.id; 
 
     async function manejarSubmit(event) {
         event.preventDefault();
 
-        const nuevoProducto = {
+        const datosProducto = {
             name: nombre,
             price: parseFloat(precio),
             stock: parseInt(stock),
@@ -18,17 +21,23 @@ function CargaProductoFormulario({ onProductoCreado, onCancelar }) {
         };
 
         try {
-            await crearProducto(nuevoProducto);
-            alert("Producto creado con éxito");
+            if (esEdicion) {
+                datosProducto.id = producto.id;
+                await editarProducto(datosProducto);
+                alert("Producto actualizado con éxito");
+            } else {
+                await crearProducto(datosProducto);
+                alert("Producto creado con éxito");
+            }
             onProductoCreado(); 
         } catch (error) {
-            alert("Hubo un error al intentar crear el producto");
+            alert("Hubo un error al intentar procesar el producto");
         }
     }
 
     return (
         <div>
-            <h3 className="text-xl font-bold mb-3">Nuevo Producto</h3>
+            <h3 className="text-xl font-bold mb-3">{esEdicion ? "Editar Producto" : "Nuevo Producto"}</h3>
             <form onSubmit={manejarSubmit}>
                 
                 <label>Nombre:</label>
