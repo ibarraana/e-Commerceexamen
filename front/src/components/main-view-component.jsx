@@ -11,14 +11,12 @@ function MainViewComponent() {
                 <table className="table-auto border-separate">
                     <tr>
                         <td>Cambiar modo:</td>
-                        <td><button className="bg-amber-100 cursor-pointer" onClick={() => setDarkMode(true)}><a class="icon-moon"/></button></td>
-                        <td><button className="bg-amber-100 cursor-pointer" onClick={() => setDarkMode(false)}><a class="icon-sun" /></button></td>
+                        <td><button className="bg-amber-100 cursor-pointer border-3" onClick={() => setDarkMode(true)}><a class="icon-moon"/></button></td>
+                        <td><button className="bg-amber-100 cursor-pointer border-3" onClick={() => setDarkMode(false)}><a class="icon-sun" /></button></td>
                     </tr>
                 </table>  
-            </div>
-                   
+            </div>                
             
-
             <h1 className="text-5xl text-center underline decoration-red-500">Bienvenido a la pagina Ana Gabriela Ibarra</h1>
             <br />
             <h3 className="underline decoration-wavy">Debe seleccionar el modo de inicio de session</h3>
